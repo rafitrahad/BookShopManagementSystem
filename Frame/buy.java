@@ -6,64 +6,88 @@ import java.awt.event.*;
 import java.io.*;
 public class buy extends JFrame implements ActionListener{
 	private double amount,totalAmount;
-	private String pc;
-	private String q;
-	JLabel imgLabel,numberLabel,totalLabel,priceLabel;
+	private String price,img,quantt;
+	private int totalQuantity,q;
+	JLabel imgLabel,numberLabel,priceLabel,quantityLabel;
 	JPanel panel;
-	JComboBox quantity;
+	JComboBox quantitybox;
 	JTextField numberField,pinField,priceField;
-	JButton backButton,confirmPaymentButton;
+	JButton backButton,buyButton;
+	book b;
 	 books bs;
-	 public buy(String p,String pc,String q,books bs){
-			this.bs=bs;
-		this.pc=pc;
-		 this.q=q;
+	 users us;
+	 user u;
+	 admins as;
+	 
+				//String(img+price+quantity)Books obj
+	 public buy(String img,String price,String quantt,books bs,book b,user u,users us,admins as){
+		 this.u=u;
+		this.us=us;
+		this.bs=bs;
+		this.b=b;
+		this.as=as;
+		this.img=img;
+		this.quantt=quantt;
+		this.price=price;
 		this.setTitle("BookShop");
 		this.setSize(800,500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		
-		//amount = Double.valueOf(str);
+		
 		
 		Font f=new Font("Arial",Font.BOLD,20);
 		
+				
 		try{
-		String str=pc;
-		amount = Double.valueOf(str);
+			totalQuantity = Integer.valueOf(quantt); 
+				
+			}catch(Exception ex){}
+		
+		
+		//amount = Double.valueOf(str);
+		try{
+		amount = Double.valueOf(price);
 		}catch(Exception ex){}
 		
 		
-		ImageIcon img=new ImageIcon(p);
+		ImageIcon image=new ImageIcon(img);
 		
 		panel=new JPanel();
 		panel.setLayout(null);
 		
 		
-		imgLabel=new JLabel(img);
-		imgLabel.setBounds(50,100,img.getIconWidth(),img.getIconHeight());
+		imgLabel=new JLabel(image);
+		imgLabel.setBounds(50,100,image.getIconWidth(),image.getIconHeight());
 		panel.add(imgLabel);
 		
-		numberLabel = new JLabel("Price:"+pc);
+		numberLabel = new JLabel("Price:"+price);
 		numberLabel.setBounds(50,300,150,30);
 		numberLabel.setFont(f);
 		panel.add(numberLabel);
 		
-		/*String quantitys[]= {"1","2","3","4","5","6","7","8","9","10"};
-		quantity = new JComboBox(quantitys);
-		quantity.setBounds(300,100,60,25);
-		quantity.addActionListener(this);
-		panel.add(quantity);
-		*/
 		
-		totalLabel = new JLabel("Net Price:"+totalAmount);
-		totalLabel.setBounds(300,150,150,30);
-		totalLabel.setFont(f);
-		panel.add(totalLabel);
+		quantityLabel=new JLabel("Quantiy");
+		quantityLabel.setBounds(380,100,60,25);
+		panel.add(quantityLabel);
+		
+		
+		String quantitys[]= {"1","2","3","4","5","6","7","8","9","10"};
+		quantitybox = new JComboBox(quantitys);
+		quantitybox.setBounds(450,100,60,25);
+		panel.add(quantitybox);
+		
+		
+		
+		numberLabel = new JLabel("Price:"+price);
+		numberLabel.setBounds(50,300,150,30);
+		numberLabel.setFont(f);
+		panel.add(numberLabel);
 	
-	    confirmPaymentButton=new JButton("Buy");
-		confirmPaymentButton.setBounds(380,250,150,30);
-		confirmPaymentButton.addActionListener(this);
-		panel.add(confirmPaymentButton);
+	    buyButton=new JButton("Buy");
+		buyButton.setBounds(380,250,150,30);
+		buyButton.addActionListener(this);
+		panel.add(buyButton);
 		 
 		 
 		backButton=new JButton("Back");
@@ -83,13 +107,29 @@ public class buy extends JFrame implements ActionListener{
 	
 	public void actionPerformed(ActionEvent ae){
 		
-		if(ae.getSource()==confirmPaymentButton){
-			selectPaymentMethod sp=new selectPaymentMethod(amount);
+		if(ae.getSource()==buyButton){
+			
+			String qnti = quantitybox.getSelectedItem().toString();
+			if(!qnti.isEmpty()){
+				
+				try{
+				q = Integer.valueOf(qnti);
+				
+			}catch(Exception ex){}
+			if ((totalQuantity>=q)&&(totalQuantity!=0)){
+			
+			totalAmount=q*amount; //quantity*price
+			
+			
+			selectPaymentMethod sp=new selectPaymentMethod(img,price,quantt,totalQuantity,q,bs,b,totalAmount,u,us,as);
 			sp.setVisible(true);
-			this.setVisible(false);
+			this.setVisible(false);}else{
+				JOptionPane.showMessageDialog(this,"Insufficient Quantity");
+			}
+			}
 			
 		}else if(ae.getSource()==backButton){
-			selectbook sl= new selectbook(bs);
+			selectbook sl= new selectbook(bs,u,us,as);
 			sl.setVisible(true);
 			this.setVisible(false);
 		}

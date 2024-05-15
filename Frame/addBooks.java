@@ -10,13 +10,22 @@ public class addBooks extends JFrame implements MouseListener,ActionListener{
     JTextField isbnField,nameField,priceField,quantityField;
 	JButton signinButton,backButton;
 	ButtonGroup bg;
+	book b = null;
+	users us;
+	books bs;
+	admin a;
+	admins as;
 
-    public addBooks(){
+    public addBooks(users us,books bs,admin a,admins as){
 		super("Add Books");
 		this.setSize(800,500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
+		this.us=us;
+		this.bs=bs;
+		this.a=a;
+		this.as=as;
 
         panel=new JPanel();
         panel.setLayout(null);
@@ -133,7 +142,7 @@ public class addBooks extends JFrame implements MouseListener,ActionListener{
 		String command = ae.getActionCommand();
 		if(ae.getSource()==backButton){
 			dispose();
-			customizeBooks cHm = new customizeBooks ();
+			customizeBooks cHm = new customizeBooks (us,bs,a,as);
 			cHm.setVisible(true);
 		}
 		if(signinButton.getText().equals(command)){
@@ -147,12 +156,12 @@ public class addBooks extends JFrame implements MouseListener,ActionListener{
 				if(price.equals(price)){
 					//user create - user class - object create - add user to userList array
 					//book u=new book();
-					books us=new books();
-					book u = new book(name,ISBN,price,quantity);
-					us.addUser(u);
+					//books us=new books();
+					book b = new book(name,ISBN,price,quantity);
+					bs.addUser(b);
 					
 					JOptionPane.showMessageDialog(this, "Add books sucessfully,press Add for add this book");
-					adminHome lg = new adminHome();
+					customizeBooks lg = new customizeBooks(us,bs,a,as);
 					lg.setVisible(true);
 					this.setVisible(false);
 				}

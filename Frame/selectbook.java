@@ -7,18 +7,20 @@ import java.io.*;
 public class selectbook extends JFrame implements ActionListener{
 
 	JLabel bookLabel1,bookLabel2,bookLabel3;
-	JButton bookButton1,bookButton2,bookButton3;
+	JButton bookButton1,bookButton2,bookButton3,backButton;
 	JPanel panel;
-		String price1;
-		String price2;
-		String price3;
-		String quantity1;
-		String quantity2;
-		String quantity3;
+		String price1,price2, price3,quantity1,quantity2,quantity3;
+		
 		books bs;
+		users us;
+		user u;
+		admins as;
 	
-	public selectbook(books bs){
+	public selectbook(books bs,user u,users us,admins as){
+		this.u=u;
+		this.us=us;
 		this.bs=bs;
+		this.as=as;
 		this.setTitle("BookShop");
 		this.setSize(800,500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,8 +56,8 @@ public class selectbook extends JFrame implements ActionListener{
 		bookButton1.addActionListener(this);
 		panel.add(bookButton1);
 		
-		bookLabel1=new JLabel("price: "+price1+"     "+"Quantity: "+quantity1);
-		bookLabel1.setBounds(42,300,200,30);
+		bookLabel1=new JLabel("price: "+price1+"    "+"Quantity"+quantity1);
+		bookLabel1.setBounds(80,300,200,30);
 		bookLabel1.setFont(f);
 		//bookLabel1.setForeground(Color.WHITE);
 		panel.add(bookLabel1);
@@ -67,8 +69,8 @@ public class selectbook extends JFrame implements ActionListener{
 		bookButton2.addActionListener(this);
 		panel.add(bookButton2);
 		
-		bookLabel2=new JLabel("price: "+price2+"     "+"Quantity: "+quantity2);
-		bookLabel2.setBounds(275,300,200,30);
+		bookLabel2=new JLabel("price: "+price2+"    "+"Quantity"+quantity2);
+		bookLabel2.setBounds(300,300,200,30);
 		bookLabel2.setFont(f);
 		//bookLabel2.setForeground(Color.WHITE);
 		panel.add(bookLabel2);
@@ -79,13 +81,17 @@ public class selectbook extends JFrame implements ActionListener{
 		bookButton3.addActionListener(this);
 		panel.add(bookButton3);
 		
-		bookLabel3=new JLabel("price: "+price3+"     "+"Quantity: "+quantity3);
+		bookLabel3=new JLabel("price: "+price3+"    "+"Quantity"+quantity3);
 		bookLabel3.setBounds(550,300,200,30);
 		bookLabel3.setFont(f);
 		//bookLabel3.setForeground(Color.WHITE);
 		panel.add(bookLabel3);
 		
 	
+		backButton=new JButton("Back");
+		backButton.setBounds(380,360,80,30);
+		backButton.addActionListener(this);
+		panel.add(backButton);
 		
 		
 		/*ImageIcon bg=new ImageIcon("Image/background.png");
@@ -107,22 +113,34 @@ public class selectbook extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent ae){
 		if(ae.getSource()==bookButton1){
 			String i1="Image/harry porter.png";
-			buy b=new buy(i1,price1,quantity1,bs);
+			book b1=bs.getUser(0);
+			buy b=new buy(i1,price1,quantity1,bs,b1,u,us,as);
+			
 			b.setVisible(true);
 			this.setVisible(false);
 		}
 		
 		else if(ae.getSource()==bookButton2){
 			String i2="Image/jungle book.png";
-			buy b=new buy(i2,price2,quantity2,bs);
+			book b1=bs.getUser(1);
+			buy b=new buy(i2,price2,quantity2,bs,b1,u,us,as);
+			
 			b.setVisible(true);
 			this.setVisible(false);
 		}
 		
 		else if(ae.getSource()==bookButton3){
 			String i3="Image/story of thieves.png";
-			buy b=new buy(i3,price2,quantity2,bs);
+			book b2=bs.getUser(2);
+			buy b=new buy(i3,price3,quantity3,bs,b2,u,us,as);
+			
 			b.setVisible(true);
+			this.setVisible(false);
+		}
+		else if(ae.getSource()==backButton){
+			customerHome sb=new customerHome(u,us,bs,as);
+			sb.setVisible(true);
+			sb.setVisible(true);
 			this.setVisible(false);
 		}
 		

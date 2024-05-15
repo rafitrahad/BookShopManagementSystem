@@ -9,16 +9,18 @@ public class intro extends JFrame implements MouseListener,ActionListener{
 	JPanel panel;
 	JButton button;
 	JLabel heading,heading1,bg1;
-	user u = null;
-	users us = null;
-	
-	public intro(users us){
+	users us;
+	books bs;
+	admins as;
+	public intro(users us,books bs,admins as){
 		super("Get started");
 		this.setSize(800,500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.us=us;
+		this.bs=bs;
+		this.as=as;
 
         panel=new JPanel();
         panel.setLayout(null);
@@ -76,7 +78,7 @@ public class intro extends JFrame implements MouseListener,ActionListener{
 	public void actionPerformed(ActionEvent ae){
 		if(ae.getSource()==button){
 			dispose();
-			intro2 in = new intro2 (us);
+			intro2 in = new intro2 (us,bs,as);
 			in.setVisible(true);
 		}
 	}

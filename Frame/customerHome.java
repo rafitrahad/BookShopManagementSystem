@@ -11,8 +11,10 @@ public class customerHome extends JFrame implements MouseListener,ActionListener
 	JButton profileButton,buyBooksButton,backButton,aboutUsButton;
 	users us;
 	user u;
+	books bs;
+	admins as;
 	
-	public customerHome(user u,users us){
+	public customerHome(user u,users us,books bs,admins as){
 		super("customer home page");
 		this.setSize(800,500);
 		this.setResizable(false);
@@ -20,6 +22,8 @@ public class customerHome extends JFrame implements MouseListener,ActionListener
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.u=u;
 		this.us=us;
+		this.bs=bs;
+		this.as=as;
 		
 		panel=new JPanel();
 		panel.setLayout(null);
@@ -143,22 +147,23 @@ public class customerHome extends JFrame implements MouseListener,ActionListener
 	public void actionPerformed(ActionEvent ae){
 		if(ae.getSource()==buyBooksButton){
 			dispose();
-			bookStart cb = new bookStart ();
+			selectbook s=new selectbook(bs,u,us,as);
+			s.setVisible(true);
 			//cb.setVisible(true);
 		}
 		if(ae.getSource()==backButton){
 			dispose();
-			customerSignin csin=new customerSignin(us);
+			customerSignin csin=new customerSignin(us,bs,as);
 			csin.setVisible(true);
 		}
 		if(ae.getSource()==profileButton){
 			dispose();
-			cProfile cp=new cProfile(u,us);
+			cProfile cp=new cProfile(u,us,bs,as);
 			cp.setVisible(true);
 		}
 		if(ae.getSource()==aboutUsButton){
 			dispose();
-			aboutUs cp=new aboutUs(u,us);
+			aboutUs cp=new aboutUs(u,us,bs,as);
 			cp.setVisible(true);
 		}
 	}

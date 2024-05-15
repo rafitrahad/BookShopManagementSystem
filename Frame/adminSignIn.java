@@ -12,16 +12,19 @@ public class adminSignIn extends JFrame implements MouseListener,ActionListener
     JTextField nameField;
     JPasswordField passwordField;
 	JButton signinButton,backButton;
-	admins us;
-	
- 
-    public adminSignIn(){
+	users us;
+	books bs;
+	admin a;
+	admins as;
+    public adminSignIn(users us,books bs,admins as){
         super("Signin");
 		this.setSize(800,500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
-		//this.us=us;
+		this.us=us;
+		this.bs=bs;
+		this.as=as;
  
         panel=new JPanel();
         panel.setLayout(null);
@@ -34,8 +37,8 @@ public class adminSignIn extends JFrame implements MouseListener,ActionListener
 		heading.setFont(f);
 		heading.setForeground(Color.WHITE);
 		panel.add(heading);
-		ImageIcon a=new ImageIcon("Image/admin4.png");
-		Image a1=a.getImage().getScaledInstance(230,400,Image.SCALE_SMOOTH);
+		ImageIcon i=new ImageIcon("Image/admin4.png");
+		Image a1=i.getImage().getScaledInstance(230,400,Image.SCALE_SMOOTH);
 		ImageIcon a2=new ImageIcon(a1);
 		adminLabel=new JLabel(a2);
 		adminLabel.setBounds(500,40,230,400);
@@ -56,6 +59,7 @@ public class adminSignIn extends JFrame implements MouseListener,ActionListener
 		nameField.setBorder(null);
 		nameField.setBackground(new Color(133,70,255));
         panel.add(nameField);
+		
 		passwordField=new JPasswordField();
         passwordField.setBounds(200,210,150,25);
 		passwordField.setFont(f2);
@@ -63,20 +67,23 @@ public class adminSignIn extends JFrame implements MouseListener,ActionListener
 		passwordField.setBackground(new Color(133,70,255));
 		passwordField.setEchoChar('*');
         panel.add(passwordField);
+		
 		signinButton=new JButton("Signin");
-		signinButton.setBounds(180,290,100,30);
+		signinButton.setBounds(160,290,100,30);
 		signinButton.setBackground(new Color(133,70,255));
 		signinButton.addMouseListener(this);
 		signinButton.addActionListener(this);
 		signinButton.setBorder(null);
 		panel.add(signinButton);
-		/*backButton=new JButton("Back");
-		backButton.setBounds(230,290,100,30);
+		
+		backButton=new JButton("Back");
+		backButton.setBounds(280,290,100,30);
 		backButton.setBackground(new Color(133,70,255));
 		backButton.addMouseListener(this);
 		backButton.addActionListener(this);
 		backButton.setBorder(null);
-		panel.add(backButton);*/
+		panel.add(backButton);
+		
 		ImageIcon bg=new ImageIcon("Image/aSignIn.jpg");
 		Image i1=bg.getImage().getScaledInstance(800,500,Image.SCALE_SMOOTH);
 		ImageIcon i2=new ImageIcon(i1);
@@ -112,34 +119,26 @@ public class adminSignIn extends JFrame implements MouseListener,ActionListener
 		String command = ae.getActionCommand();
 		if(signinButton.getText().equals(command)){
 			
-			admin u=new admin();
-			admins us=new admins();
-			
 			String name = nameField.getText();
 			String pass = passwordField.getText();// 
-			int index = us.userExists(name);
+			int index = as.userExists(name);
 			if(index == -1){
 				JOptionPane.showMessageDialog(this, "User doesn't exist!");
 			}else{
-				u = us.checkCredentials(index,pass);
-				if(u == null ){
+				a = as.checkCredentials(index,pass);
+				if(a == null ){
 					JOptionPane.showMessageDialog(this, "Password incorrect");
 				}else{
-					adminHome db = new adminHome();
+					adminHome db = new adminHome(us,bs,a,as);
 					db.setVisible(true);
 					this.setVisible(false);
 				}		
 			}
 	 }
-		/*if(ae.getSource()== signinButton){
+		else if(ae.getSource()==backButton){
 			dispose();
-			adminHome aHm = new adminHome ();
-			aHm.setVisible(true);
-		}*/
-		/*if(ae.getSource()==backButton){
-			dispose();
-			intro2 in2=new intro2(us);
+			intro2 in2=new intro2(us,bs,as);
 			in2.setVisible(true);
-		}*/
+		}
 	}
 }

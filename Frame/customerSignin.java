@@ -14,16 +14,20 @@ public class customerSignin extends JFrame implements MouseListener,ActionListen
     JPasswordField passwordField;
 	JButton signinButton,signupButton,backButton,forgotButton,eyeButton;
 	ImageIcon notEye,eye;
-	user u = null;
+	user u;
 	users us = null;
+	books bs;
+	admins as;
 
-    public customerSignin(users us){
+    public customerSignin(users us,books bs,admins as){
         super("Signin or signup");
 		this.setSize(850,500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.us=us;
+		this.bs=bs;
+		this.as=as;
 
         panel=new JPanel();
         panel.setLayout(null);
@@ -68,18 +72,6 @@ public class customerSignin extends JFrame implements MouseListener,ActionListen
 		passwordField.setBackground(new Color(133,70,255));
 		passwordField.setEchoChar('*');
         panel.add(passwordField);
-		
-		
-		
-		/*eyeButton=new JButton("show",ie2);
-		eyeButton.setBounds(770,178,25,26);//500,240,100,30
-		eyeButton.setBackground(new Color(101,88,216));
-		eyeButton.addMouseListener(this);
-		//eyeButton.setContentAreaFilled(false);
-		eyeButton.setBorder(null);
-		//eyeButton.addActionListener(this);
-		eyeButton.setBorder(null);
-		panel.add(eyeButton);*/
 		
 		tglB = new JToggleButton("",eye);
 		tglB.setBounds(770,178,25,26);
@@ -239,7 +231,7 @@ public class customerSignin extends JFrame implements MouseListener,ActionListen
 		String command = ae.getActionCommand();
 		if(ae.getSource()== signupButton){
 			dispose();
-			customerSignup cUn = new customerSignup (us);
+			customerSignup cUn = new customerSignup (us,bs,as);
 			cUn.setVisible(true);
 		}
 		if(signinButton.getText().equals(command)){
@@ -254,7 +246,7 @@ public class customerSignin extends JFrame implements MouseListener,ActionListen
 				if(u == null ){
 					JOptionPane.showMessageDialog(this, "Password incorrect");
 				}else{
-					customerHome db = new customerHome(u,us);
+					customerHome db = new customerHome(u,us,bs,as);
 					db.setVisible(true);
 					this.setVisible(false);
 				}		
@@ -262,12 +254,12 @@ public class customerSignin extends JFrame implements MouseListener,ActionListen
 	 }
 	 if(ae.getSource()==backButton){
 			dispose();
-			intro2 in2=new intro2(us);
+			intro2 in2=new intro2(us,bs,as);
 			in2.setVisible(true);
 		}
 		if(ae.getSource()==forgotButton){
 			dispose();
-			forgotPass in2=new forgotPass(us);
+			forgotPass in2=new forgotPass(us,bs,as);
 			in2.setVisible(true);
 		}
 

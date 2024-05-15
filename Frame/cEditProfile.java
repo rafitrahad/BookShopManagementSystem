@@ -15,8 +15,10 @@ public class cEditProfile extends JFrame implements MouseListener,ActionListener
 	JComboBox date,month,year;
 	users us;
 	user u;
+	books bs;
+	admins as;
 
-    public cEditProfile(user u,users us){
+    public cEditProfile(user u,users us,books bs,admins as){
 		super("Edit profile");
 		this.setSize(800,500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -24,6 +26,8 @@ public class cEditProfile extends JFrame implements MouseListener,ActionListener
 		this.setResizable(false);
 		this.u=u;
 		this.us=us;
+		this.bs=bs;
+		this.as=as;
 
         panel=new JPanel();
         panel.setLayout(null);
@@ -274,7 +278,7 @@ public class cEditProfile extends JFrame implements MouseListener,ActionListener
 					if(result == 0){
 						//do nothing
 					}else{
-						cProfile db = new cProfile(u,us);
+						cProfile db = new cProfile(u,us,bs,as);
 						db.setVisible(true);
 						this.setVisible(false);
 					}
@@ -287,7 +291,7 @@ public class cEditProfile extends JFrame implements MouseListener,ActionListener
 	}
 	if(ae.getSource()==backButton){
 			dispose();
-			cProfile cp=new cProfile(u,us);
+			cProfile cp=new cProfile(u,us,bs,as);
 			cp.setVisible(true);
 		}
 }

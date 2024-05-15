@@ -1,15 +1,20 @@
-d
+Harry Porter
 9999
-400
-20
+445
+29
 
-k
+Jungle Book
 8888
 300
-20
+100
 
-Java
+Story Of Thieves
 7777
-300
+320
 50
+
+sharlok
+22
+55
+55
 

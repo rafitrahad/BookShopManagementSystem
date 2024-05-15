@@ -5,20 +5,40 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 public class bookpayment extends JFrame implements ActionListener{
-	double pc;
+	private double amount,totalAmount;
+	private String price,img,p,str,quantt,avablquantity;
+	private int totalQuantity,q,availableQuantity;
 	JLabel numberLabel,pinLabel,priceLabel;
 	JPanel panel;
 	JTextField numberField,pinField,priceField;
 	JButton backButton,confirmPaymentButton;
-	String p;
-    public bookpayment(String p,double pc){
+	books bs;
+	users us;
+	user u;
+	book b;
+	admins as;
+    public bookpayment(String img,String price,String quantt,int totalQuantity,int q,books bs,book b,double totalAmount,String p,user u,users us,admins as){
+		this.u=u;
+		this.us=us;
 		this.p=p;
-		this.pc=pc;
+		this.bs=bs;
+		this.b=b;
+		this.img=img;
+		this.price=price;
+		this.quantt=quantt;
+		this.totalQuantity=totalQuantity;
+		this.q=q;
+		this.totalAmount=totalAmount;
+		this.as=as;
+		
 		this.setTitle("BookShop");
 		this.setSize(800,500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		
+		try{
+			str = String.valueOf(totalAmount);
+		}catch(Exception ex){}
 		
 		Font f=new Font("Arial",Font.BOLD,20);
 		
@@ -47,17 +67,11 @@ public class bookpayment extends JFrame implements ActionListener{
 		pinField.setBounds(220,150,150,30);
 		panel.add(pinField);
 	
-		priceLabel = new JLabel("Amount : ");
-		priceLabel.setBounds(100,210,150,30);
+		priceLabel = new JLabel("Amount :"+str);
+		priceLabel.setBounds(100,210,400,30);
 		priceLabel.setFont(f);
 		//priceLabel.setForeground(Color.RED);
 		panel.add(priceLabel);
-	
-	
-	
-		priceField = new JTextField();
-		priceField.setBounds(220,210,150,30);
-		panel.add(priceField);
 		 
 		 
 		 
@@ -93,13 +107,45 @@ public class bookpayment extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent ae){
 		
 		if(ae.getSource()==confirmPaymentButton){
-			JOptionPane.showMessageDialog(this,"Thank You For Purchasing");
 			
+			String number,pin;
+			number=numberField.getText();
+			pin=pinField.getText();
+			
+			if(!number.isEmpty() && !pin.isEmpty()){ 
+			
+			availableQuantity=totalQuantity-q;
+			try{
+			avablquantity = String.valueOf(availableQuantity);
+		}catch(Exception ex){}
+			
+					String oldName = b.getName();
+					String oldISBN = b.getISBN();
+					String oldPrice = b.getPrice();
+		            String oldQuantity = b.getQuantity();
+					book oldUser = new book(oldName,oldISBN,oldPrice,oldQuantity);
+					
+					//updating new info
+					b.setQuantity(avablquantity);
+					
+					
+					//olso updating in file
+					bs.updateUser(oldUser, b);
+			
+			
+			
+			JOptionPane.showMessageDialog(this,"Thank You For Purchasing");
+			 customerHome sb=new customerHome(u,us,bs,as);
+			 sb.setVisible(true);
+			 this.setVisible(false);
+			}else{
+				JOptionPane.showMessageDialog(this,"Informession Missing");
+			}
 		}else if(ae.getSource()==backButton){
 			
-			//selectPaymentMethod s=new selectPaymentMethod();
-			//s.setVisible(true);
-			//this.setVisible(false);
+			selectPaymentMethod s=new selectPaymentMethod(img,price,quantt,totalQuantity,q,bs,b,totalAmount,u,us,as);
+			s.setVisible(true);
+			this.setVisible(false);
 		}
 		
 	}

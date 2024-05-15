@@ -10,17 +10,23 @@ public class customezeBooksPQD extends JFrame implements MouseListener,ActionLis
     JTextField isbnField,nameField,priceField,quantityField;
 	JButton signinButton,backButton,deleteButton;
 	ButtonGroup bg;
-	book u;
-	books us;
+	book b;
+	users us;
+	books bs;
+	admin a;
+	admins as;
 
-    public customezeBooksPQD(book u,books us){
+    public customezeBooksPQD(users us,books bs,admin a,admins as,book b){
 		super("Change price or quantity or delete..........");
 		this.setSize(800,500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
-		this.u=u;
+		this.b=b;
 		this.us=us;
+		this.bs=bs;
+		this.a=a;
+		this.as=as;
 		
 		//books us=new books();
 		//book u = new book();
@@ -55,28 +61,28 @@ public class customezeBooksPQD extends JFrame implements MouseListener,ActionLis
 		quantity.setFont(f1);
 		panel.add(quantity);
 		
-        isbnField=new JTextField();
+        isbnField=new JTextField(b.getISBN());
         isbnField.setBounds(500,50,200,25);
 		isbnField.setBackground(new Color(193,255,200));
 		isbnField.setFont(f2);
 		isbnField.setBorder(null);
         panel.add(isbnField);
 
-		nameField=new JTextField();
+		nameField=new JTextField(b.getName());
 		nameField.setBounds(500,90,200,25);
 		nameField.setFont(f2);
 		nameField.setBorder(null);
 		nameField.setBackground(new Color(193,255,200));
 		panel.add(nameField);
 		
-		priceField=new JTextField();
+		priceField=new JTextField(b.getPrice());
 		priceField.setBounds(500,130,200,25);
 		priceField.setFont(f2);
 		priceField.setBorder(null);
 		priceField.setBackground(new Color(193,255,200));
 		panel.add(priceField);
 		
-		quantityField=new JTextField();
+		quantityField=new JTextField(b.getQuantity());
 		quantityField.setBounds(500,170,200,25);
 		quantityField.setFont(f2);
 		quantityField.setBorder(null);
@@ -154,9 +160,27 @@ public class customezeBooksPQD extends JFrame implements MouseListener,ActionLis
 	
 	public void actionPerformed(ActionEvent ae){
 		String command = ae.getActionCommand();
+		//String command = ae.getActionCommand();
+		if(deleteButton.getText().equals(command)){
+			int dialog = JOptionPane.YES_NO_OPTION;
+			int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this book?", "Delete book?", dialog);
+			
+			if(result == 0){
+				bs.deleteUser(b.getISBN());
+				
+				JOptionPane.showMessageDialog(this, "book deleted. Redirecting to login page.");
+				
+				customizeBooks lg = new customizeBooks(us,bs,a,as);
+				lg.setVisible(true);
+				this.setVisible(false);
+			}else{ 
+				//no nothing 
+			}
+		}
+		
 		if(ae.getSource()==backButton){
 			dispose();
-			customizeBooks cHm = new customizeBooks ();
+			customizeBooks cHm = new customizeBooks (us,bs,a,as);
 			cHm.setVisible(true);
 		}
 		if(signinButton.getText().equals(command)){
@@ -171,28 +195,26 @@ public class customezeBooksPQD extends JFrame implements MouseListener,ActionLis
 				int dialog = JOptionPane.YES_NO_OPTION;
 				int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to update these informations?", "Profile update?", dialog);
 				if(result == 0){
-					books us=new books();
-					book u = new book(name,ISBN,price,quantity);
-					String oldName=u.getName();
-					String oldISBN=u.getISBN();
-					String oldPrice=u.getPrice();
-					String oldQuantity=u.getQuantity();
+					String oldName=b.getName();
+					String oldISBN=b.getISBN();
+					String oldPrice=b.getPrice();
+					String oldQuantity=b.getQuantity();
 					book oldUser=new book(oldName,oldISBN,oldPrice,oldQuantity);
 					
 					//updating new info
-					u.setName(name);
-					u.setISBN(ISBN);
-					u.setPrice(price);
-					u.setQuantity(quantity);
+					b.setName(name);
+					b.setISBN(ISBN);
+					b.setPrice(price);
+					b.setQuantity(quantity);
 					
-					us.updateUser(oldUser,u);
+				    bs.updateUser(oldUser,b);
 					
 					dialog = JOptionPane.YES_NO_OPTION;
 					result = JOptionPane.showConfirmDialog(this, "Information updated. Do you want to stay on this page?", "Stay on this page?", dialog);
 					if(result == 0){
 						//do nothing
 					}else{
-						adminHome db = new adminHome();
+						customizeBooks db = new customizeBooks(us,bs,a,as);
 						db.setVisible(true);
 						this.setVisible(false);
 					}
@@ -202,8 +224,8 @@ public class customezeBooksPQD extends JFrame implements MouseListener,ActionLis
 			}else{
 				JOptionPane.showMessageDialog(this, "Can't update, information missing!");
 			}
-	}
-    
+	    }
+    }
 }
-}
+
 

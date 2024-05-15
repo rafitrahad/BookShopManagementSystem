@@ -12,12 +12,22 @@ public class customizeBooks extends JFrame implements MouseListener,ActionListen
     JTextField nameField;
     JPasswordField passwordField,conformPasswordField;
 	JButton backButton,saveButton,addBooksButton;
-    public customizeBooks(){
+	
+	users us;
+	books bs;
+	admin a;
+	admins as;
+    public customizeBooks(users us,books bs,admin a,admins as){
         super("Add books or change price or quantity or delete...");
 		this.setSize(800,500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
+		
+		this.us=us;
+		this.bs=bs;
+		this.a=a;
+		this.as=as;
 
         panel=new JPanel();
         panel.setLayout(null);
@@ -125,33 +135,25 @@ public class customizeBooks extends JFrame implements MouseListener,ActionListen
 		String command = ae.getActionCommand();
 		if(saveButton.getText().equals(command)){
 			String ISBN = nameField.getText();
-			//String pass = passwordField.getText();
-			books us=new books();
-			int index = us.userExists(ISBN);
+			int index = bs.userExists(ISBN);
 			if(index == -1){
 				JOptionPane.showMessageDialog(this, "Book doesn't exist!");
 			}else{
-			//	/u = us.checkCredentials(index,pass);
-			//	if(u == null ){
-			//		JOptionPane.showMessageDialog(this, "Password incorrect");
-			//	}else //{
-					//books us=new books();
-					//book u=new books();
-					book u = us.getUser(index);
-					customezeBooksPQD db = new customezeBooksPQD(u,us);
+					book b = bs.getUser(index);
+					customezeBooksPQD db = new customezeBooksPQD(us,bs,a,as,b);
 					db.setVisible(true);
 					this.setVisible(false);
-				//}		
+					
 			}
 		}
 		if(ae.getSource()==backButton){
 			dispose();
-			adminHome cHm = new adminHome ();
+			adminHome cHm = new adminHome (us,bs,a,as);
 			cHm.setVisible(true);
 		}
 		if(ae.getSource()==addBooksButton){
 			dispose();
-			addBooks cHm = new addBooks ();
+			addBooks cHm = new addBooks (us,bs,a,as);
 			cHm.setVisible(true);
 		}
 	}

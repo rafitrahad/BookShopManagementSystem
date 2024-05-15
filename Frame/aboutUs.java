@@ -12,8 +12,9 @@ public class aboutUs extends JFrame implements MouseListener,ActionListener{
 	JButton backButton;
 	users us;
 	user u;
-	
-	public aboutUs(user u,users us){
+	books bs;
+	admins as;
+	public aboutUs(user u,users us,books bs,admins as){
 		super("about us");
 		this.setSize(800,500);
 		this.setResizable(false);
@@ -21,6 +22,8 @@ public class aboutUs extends JFrame implements MouseListener,ActionListener{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.u=u;
 		this.us=us;
+		this.bs=bs;
+		this.as=as;
 		
 		panel=new JPanel();
 		panel.setLayout(null);
@@ -141,7 +144,7 @@ public class aboutUs extends JFrame implements MouseListener,ActionListener{
 	public void actionPerformed(ActionEvent ae){
 		if(ae.getSource()==backButton){
 			dispose();
-			customerHome csin=new customerHome(u,us);
+			customerHome csin=new customerHome(u,us,bs,as);
 			csin.setVisible(true);
 		}
 	}

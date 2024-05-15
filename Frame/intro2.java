@@ -8,18 +8,18 @@ public class intro2 extends JFrame implements MouseListener,ActionListener{
 	JPanel panel;
 	JLabel heading,bg1,adminLabel,customerLabel;
 	JButton adminButton,customerButton;
-	user u = null;
-	users us = null;
-	//admin a=null;
-	//admins as=null;
-	public intro2(users us){
+	users us;
+	books bs;
+	admins as;
+	public intro2(users us,books bs,admins as){
 		super("Login as");
 		this.setSize(800,500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.us=us;
-		//this.as=as;
+		this.bs=bs;
+		this.as=as;
 
         panel=new JPanel();
         panel.setLayout(null);
@@ -101,13 +101,14 @@ public class intro2 extends JFrame implements MouseListener,ActionListener{
 	public void actionPerformed(ActionEvent ae){
 		if(ae.getSource()== customerButton){
 			dispose();
-			customerSignin cIn = new customerSignin (us);
+			customerSignin cIn = new customerSignin (us,bs,as);
 			cIn.setVisible(true);
 		}
 		if(ae.getSource()== adminButton){
 			dispose();
-			adminSignIn cIn = new adminSignIn ();
-			cIn.setVisible(true);
+			adminSignIn ain=new adminSignIn( us,bs,as);
+			ain.setVisible(true);
+			//adminStart cIn = new adminStart (us,bs);
 		}
 	}
 }

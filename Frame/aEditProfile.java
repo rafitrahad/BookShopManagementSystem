@@ -1,31 +1,33 @@
+
 package Frame;
 import Class.*;
 import java.lang.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-public class customerSignup extends JFrame implements MouseListener,ActionListener{
+public class aEditProfile extends JFrame implements MouseListener,ActionListener{
 	JPanel panel;
     JLabel bg1,patientName,patientPassword,conformPatientPassword,patientMobileNumber,emailLabel,genderLabel,addressLabel,dobLabel;
     JTextField nameField,numberField,emailField,addressField;
     JPasswordField passwordField,conformPasswordField;
-	JButton signinButton;
+	JButton signinButton,backButton;
 	JRadioButton male,female,other;
 	ButtonGroup bg;
 	JComboBox date,month,year;
-	user u = null;
-	users us = null;
+	users us;
 	books bs;
+	admin a;
 	admins as;
 
-    public customerSignup(users us,books bs,admins as){
-		super("sign up");
+    public aEditProfile(users us,books bs,admin a,admins as){
+		super("Edit profile");
 		this.setSize(800,500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.us=us;
 		this.bs=bs;
+		this.a=a;
 		this.as=as;
 
         panel=new JPanel();
@@ -37,21 +39,21 @@ public class customerSignup extends JFrame implements MouseListener,ActionListen
 		Font f2=new Font("Arial",Font.PLAIN,17);
 
         patientName=new JLabel("Username :");
-        patientName.setBounds(295,50,100,20);
+        patientName.setBounds(295,90,100,20);
         //patientName.setOpaque(true);
 		patientName.setFont(f1);
         panel.add(patientName);
         
         patientPassword=new JLabel("Password :");
-        patientPassword.setBounds(295,90,100,20);
+        patientPassword.setBounds(295,130,100,20);
 		patientPassword.setFont(f1);
         //patientPassword.setOpaque(true);
         panel.add(patientPassword);
 		
-		conformPatientPassword=new JLabel("Conform password :");
+		/*conformPatientPassword=new JLabel("Conform password :");
 		conformPatientPassword.setBounds(295,130,200,20);
 		conformPatientPassword.setFont(f1);
-		panel.add(conformPatientPassword);
+		panel.add(conformPatientPassword);*/
 		
 		patientMobileNumber=new JLabel("Phone number :");
 		patientMobileNumber.setBounds(295,170,150,20);
@@ -107,36 +109,36 @@ public class customerSignup extends JFrame implements MouseListener,ActionListen
 		addressLabel.setFont(f1);
 		panel.add(addressLabel);
 
-        nameField=new JTextField();
-        nameField.setBounds(500,50,200,25);
+        nameField=new JTextField(a.getName());
+        nameField.setBounds(500,90,200,25);
 		nameField.setBackground(new Color(193,255,200));
 		nameField.setFont(f2);
 		nameField.setBorder(null);
         panel.add(nameField);
 
-        passwordField=new JPasswordField();
-        passwordField.setBounds(500,90,200,25);
+        passwordField=new JPasswordField(a.getPassword());
+        passwordField.setBounds(500,130,200,25);
 		passwordField.setBackground(new Color(193,255,200));
 		passwordField.setFont(f2);
 		passwordField.setBorder(null);
 		passwordField.setEchoChar('*');
         panel.add(passwordField);
 		
-		conformPasswordField=new JPasswordField();
+	/*	conformPasswordField=new JPasswordField();
 		conformPasswordField.setBounds(500,130,200,25);
 		conformPasswordField.setFont(f2);
 		conformPasswordField.setBorder(null);
 		conformPasswordField.setBackground(new Color(193,255,200));
-		panel.add(conformPasswordField);
+		panel.add(conformPasswordField);*/
 		
-		numberField=new JTextField();
+		numberField=new JTextField(a.getNumber());
 		numberField.setBounds(500,170,200,25);
 		numberField.setFont(f2);
 		numberField.setBorder(null);
 		numberField.setBackground(new Color(193,255,200));
 		panel.add(numberField);
 		
-		emailField=new JTextField();
+		emailField=new JTextField(a.getEmail());
 		emailField.setBounds(500,210,200,25);
 		emailField.setFont(f2);
 		emailField.setBorder(null);
@@ -166,21 +168,28 @@ public class customerSignup extends JFrame implements MouseListener,ActionListen
 		bg.add(female);
 		bg.add(other);
 		
-		addressField=new JTextField();
+		addressField=new JTextField(a.getAddress());//u
 		addressField.setBounds(500,330,200,25);
 		addressField.setFont(f2);
 		addressField.setBorder(null);
 		addressField.setBackground(new Color(193,255,200));
 		panel.add(addressField);
 		
-		signinButton=new JButton("SignIn");
-		signinButton.setBounds(550,375,100,40);
+		signinButton=new JButton("Save");
+		signinButton.setBounds(500,375,80,30);
 		signinButton.setBackground(new Color(193,255,200));
 		signinButton.setBorder(null);
 		signinButton.addMouseListener(this);
 		signinButton.addActionListener(this);
 		panel.add(signinButton);
 		
+		backButton=new JButton("Back");
+		backButton.setBounds(610,375,80,30);
+		backButton.setBackground(new Color(193,255,200));
+		backButton.setBorder(null);
+		backButton.addMouseListener(this);
+		backButton.addActionListener(this);
+		panel.add(backButton);
 		
 		
 		ImageIcon bg=new ImageIcon("Image/signup.jpg");
@@ -203,59 +212,88 @@ public class customerSignup extends JFrame implements MouseListener,ActionListen
 			signinButton.setBackground(new Color(120,240,119));
 			signinButton.setForeground(Color.BLACK);
 		}	
+		if(me.getSource()==backButton){
+			backButton.setBackground(new Color(120,240,119));
+			backButton.setForeground(Color.BLACK);
+		}	
 	}
 	public void mouseExited(MouseEvent me){
 		if(me.getSource()==signinButton){
 			signinButton.setBackground(new Color(193,255,200));
 			signinButton.setForeground(Color.BLACK);
 		}
+		if(me.getSource()==backButton){
+			backButton.setBackground(new Color(193,255,200));
+			backButton.setForeground(Color.BLACK);
+		}	
 	}
 	
 	public void actionPerformed(ActionEvent ae){
 		String command = ae.getActionCommand();
 		if(signinButton.getText().equals(command)){
-			String name = "", pass = "",confirmPass = "",num="",email="", gender="",
-							dt="",mnth="",yr="",dob="",address="";
+			String name ="",pass="",number="",email="",address="",gender="",
+			            dt="",mnth="",yr="", dob="";
 			
 			name = nameField.getText();
-			pass = passwordField.getText();
-			confirmPass = conformPasswordField.getText();
-			num=numberField.getText();
-			email=emailField.getText();
+			pass=passwordField.getText();
 			address = addressField.getText();
+			number=numberField.getText();
+			email=emailField.getText();
 			
-			if(male.isSelected()){
-				gender = "Male";
-			}else if(female.isSelected()){
-				gender = "Female";
-			}else if(other.isSelected()){
-				gender = "Other";
-			}
-			
+			if(male.isSelected()){ gender = "Male";} 
+			else if(female.isSelected()){ gender = "Female";} 
+			else if(other.isSelected()){ gender = "Other";}
+			else{}
+				
 			dt = date.getSelectedItem().toString();
 			mnth = month.getSelectedItem().toString();
 			yr = year.getSelectedItem().toString();
-			
 			dob = dt+"/"+mnth+"/"+yr;
 			
-			if(!name.isEmpty() && !pass.isEmpty() && !confirmPass.isEmpty() && !num.isEmpty()&&  !email.isEmpty()&& !gender.isEmpty() && !dob.isEmpty() && !address.isEmpty()){
-				if(pass.equals(confirmPass)){
-					//user create - user class - object create - add user to userList array
-					user u = new user(name,pass,num,email,gender,dob,address);
-					us.addUser(u);
+			if((!name.isEmpty()) && (!gender.isEmpty()) && (!address.isEmpty())){
+				int dialog = JOptionPane.YES_NO_OPTION;
+				int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to update these informations?", "Profile update?", dialog);
+				if(result == 0){
+					String oldName=a.getName();
+					String oldPass=a.getPassword();
+					String oldNumber=a.getNumber();
+					String oldEmail=a.getEmail();
+					String oldGender=a.getGender();
+					String oldDOB=a.getDOB();
+					String oldAddress=a.getAddress();
+					admin oldUser=new admin(oldName,oldPass,oldNumber,oldEmail,oldGender,oldDOB,oldAddress);
 					
-					JOptionPane.showMessageDialog(this, "Sign up successful. Please login to continue.");
-					customerSignin lg = new customerSignin(us,bs,as);
-					lg.setVisible(true);
-					this.setVisible(false);
-				}
-				else{
-					JOptionPane.showMessageDialog(this, "Password missmatch");
+					//updating new info
+					a.setName(name);
+					a.setPassword(pass);//user,users
+					a.setNumber(number);
+					a.setEmail(email);
+					a.setGender(gender);
+					a.setDOB(dob);
+					a.setAddress(address);
+					
+					as.updateUser(oldUser,a);
+					
+					dialog = JOptionPane.YES_NO_OPTION;
+					result = JOptionPane.showConfirmDialog(this, "Information updated. Do you want to stay on this page?", "Stay on this page?", dialog);
+					if(result == 0){
+						//do nothing
+					}else{
+						aProfile db = new aProfile(us,bs,a,as);
+						db.setVisible(true);
+						this.setVisible(false);
+					}
+				}else{
+					//do nothing
 				}
 			}else{
-				JOptionPane.showMessageDialog(this, "Information missing");
+				JOptionPane.showMessageDialog(this, "Can't update, information missing!");
 			}
-			
-		}
 	}
+	if(ae.getSource()==backButton){
+			dispose();
+			aProfile cp=new aProfile(us,bs,a,as);
+			cp.setVisible(true);
+		}
+}
 }

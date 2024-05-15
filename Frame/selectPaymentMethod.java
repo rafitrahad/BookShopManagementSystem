@@ -7,18 +7,33 @@ import java.awt.event.*;
 
 
 public class selectPaymentMethod extends JFrame implements ActionListener{
+
 	private double totalAmount;
-	private double p;
-	
-	JLabel selctLabel;
+	private String price,img,quantt;
+	private int totalQuantity,q;
+	JLabel selctLabel,to;
 	JButton bkashButton,rocketButton,nogodButton,dbblButton,backButton;
-	
 	JPanel panel,backgroundPanel;
-	
-	
-	
-	public selectPaymentMethod(double p){
-		this.p=p;
+	books bs;
+	users us;
+	user u;
+	book b1;
+	admins as;
+
+	//String(img+price)Books obj+double totalamount
+	public selectPaymentMethod(String img,String price,String quantt,int totalQuantity,int q,books bs,book b1,double totalAmount,user u,users us,admins as){
+		this.u=u;
+		this.us=us;
+		this.bs=bs;
+		this.b1=b1;
+		this.as=as;
+		this.img=img;
+		this.price=price;
+		this.quantt=quantt;
+		this.totalAmount=totalAmount;
+		this.totalQuantity=totalQuantity;
+		this.q=q;
+		
 		this.setTitle("Payment Option");
 		this.setSize(800,500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,7 +89,6 @@ public class selectPaymentMethod extends JFrame implements ActionListener{
 		backButton.addActionListener(this);
 		panel.add(backButton);
 		
-		
 		JLabel bg1=new JLabel(i2);
 		bg1.setSize(800,500);
 		panel.add(bg1);
@@ -90,21 +104,21 @@ public class selectPaymentMethod extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent ae){
 		if(ae.getSource()==bkashButton){
 			String bk="Image/bkashbackground.png";
-			bookpayment b=new bookpayment(bk,p);
+			bookpayment b=new bookpayment(img,price,quantt,totalQuantity,q,bs,b1,totalAmount,bk,u,us,as);
 			b.setVisible(true);
 			this.setVisible(false);
 		}
 		
 		else if(ae.getSource()==nogodButton){
 			String ng="Image/nogodbackground.png";
-			bookpayment b=new bookpayment(ng,p);
+			bookpayment b=new bookpayment(img,price,quantt,totalQuantity,q,bs,b1,totalAmount,ng,u,us,as);
 			b.setVisible(true);
 			this.setVisible(false);
 		}
 		
 		else if(ae.getSource()==rocketButton){
 			String rk="Image/rocketbackground.png";
-			bookpayment b=new bookpayment(rk,p);
+			bookpayment b=new bookpayment(img,price,quantt,totalQuantity,q,bs,b1,totalAmount,rk,u,us,as);
 			b.setVisible(true);
 			this.setVisible(false);
 		}
@@ -112,15 +126,15 @@ public class selectPaymentMethod extends JFrame implements ActionListener{
 		
 		else if(ae.getSource()==dbblButton){
 			String d="Image/dbblbackground.png";
-			bookpayment b=new bookpayment(d,p);
+			bookpayment b=new bookpayment(img,price,quantt,totalQuantity,q,bs,b1,totalAmount,d,u,us,as);
 			b.setVisible(true);
 			this.setVisible(false);
-		}/*else if(ae.getSource()==backButton){
+		}else if(ae.getSource()==backButton){
 			
-			buy sl= new buy(p,);
+			buy sl= new buy(img,price,quantt,bs,b1,u,us,as);
 			sl.setVisible(true);
 			this.setVisible(false);
-		}*/
+		}
 		
 		
 	}
